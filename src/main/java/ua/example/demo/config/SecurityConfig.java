@@ -4,34 +4,48 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import ua.example.demo.security.AuthProviderImpl;
 import ua.example.demo.service.PersonDetailsService;
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    private PersonDetailsService personDetailsService;
 
     @Autowired
-    private PersonDetailsService userDetailsService;
-    private final AuthProviderImpl authProvider;
-
-    @Autowired
-    public SecurityConfig(AuthProviderImpl authProvider) {
-        this.authProvider = authProvider;
+    public SecurityConfig(PersonDetailsService personDetailsService) {
+        this.personDetailsService = personDetailsService;
     }
 
     //здесь мы сконфигурируем аутентификацию
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         //auth.authenticationProvider(authProvider);
-        auth.userDetailsService(userDetailsService);
+        auth.userDetailsService(personDetailsService);
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    public PasswordEncoder getPasswordEncoder() {
         return NoOpPasswordEncoder.getInstance(); // Використовуйте BCryptPasswordEncoder або інший PasswordEncoder за вашим вибором
+    }
+
+//здесь я настраиваю сам spring security ту какую форму для логина использовать
+//конфигурируем сам Spring Security
+//конфигурируем авторизацию
+    @Override
+    public void configure(HttpSecurity http) throws Exception {
+        http
+                .csrf().disable()
+                .authorizeRequests()
+                .antMatchers("/auth/login","/error").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .formLogin().loginPage("/auth/login")
+                .loginProcessingUrl("/process_login")
+                .defaultSuccessUrl("/hello", true)
+                .failureUrl("/auth/login?error");
     }
 
 }
