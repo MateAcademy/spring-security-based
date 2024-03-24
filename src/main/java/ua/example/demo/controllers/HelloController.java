@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import ua.example.demo.security.PersonDetails;
 
 @Controller
-@RequestMapping("/test")
+@RequestMapping
 public class HelloController {
 
 
