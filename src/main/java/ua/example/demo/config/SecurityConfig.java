@@ -21,6 +21,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     //здесь мы сконфигурируем аутентификацию
+    @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         //auth.authenticationProvider(authProvider);
         auth.userDetailsService(personDetailsService);
@@ -39,11 +40,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/auth/login","/error").permitAll()
+                .antMatchers("/auth/login","/error",  "/welcome", "auth/registration").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().loginPage("/auth/login")
-                .loginProcessingUrl("/process_login")
+//                .loginProcessingUrl("/process_login")
                 .defaultSuccessUrl("/hello", true)
                 .failureUrl("/auth/login?error");
     }
