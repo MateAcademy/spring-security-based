@@ -6,8 +6,45 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Registration page</title>
+    <style>
+        .h1 {
+            text-align: center;
+            font-size: 30px;
+        }
+
+        .h2 {
+            text-align: center;
+            font-size: 20px;
+        }
+    </style>
 </head>
 <body>
+<h1 class="h1">Страница добавления человека</h1>
+<hr/>
+<form th:class="h1" th:method="post" th:action="@{/auth/registration}" th:object="${person}">
+    <div>
+        <label for="username">Name:</label>
+        <input type="text" th:field="*{name}" id="username"/>
+        <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">name error</div>
+        <br>
+        <label for="yearOfBirth">yearOfBirth:</label>
+        <input type="text" th:field="*{yearOfBirth}" id="yearOfBirth"/>
+        <div style="color:red" th:if="${#fields.hasErrors('yearOfBirth')}" th:errors="*{yearOfBirth}">yearOfBirth error</div>
+        <br>
+        <label for="email">Email:</label>
+        <input type="text" th:field="*{email}" id="email"/>
+        <div style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">email error</div>
+        <br>
+        <label for="password">Введите password:</label>
+        <input type="password" th:field="*{password}" id="password"/>
+        <div style="color:red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">password error</div>
+        <br>
+        <input type="submit" value="Create Person!"/>
+    </div>
+</form>
 
+<br/>
+<hr/>
+<h2 class="h2"><a href="/">На главную страницу</a></h2>
 </body>
 </html>
