@@ -21,8 +21,10 @@ public class RegistrationService {
     }
 
     @Transactional
-    public void add(Person person) {
+    public void register(Person person) {
         person.setPassword(passwordEncoder.encode(person.getPassword()));
+        person.setRole("ROLE_USER");
         personRepository.save(person);
     }
+
 }

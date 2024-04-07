@@ -2,10 +2,13 @@ package ua.example.demo.security;
 
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import ua.example.demo.models.Person;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
 @Getter
 public class PersonDetails implements UserDetails {
@@ -19,7 +22,9 @@ public class PersonDetails implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 //мы здесь будем получать роли и будем возвращать список прав
-        return null;
+        //SHOW_ACCOUNT, WITHDRAW_MONEY, SEND_MONEY
+        //ROLE_ADMIN, ROLE_USER -
+        return Collections.singletonList(new SimpleGrantedAuthority(person.getRole()));
     }
 
     @Override

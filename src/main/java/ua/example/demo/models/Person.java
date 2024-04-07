@@ -18,16 +18,19 @@ public class Person {
     @Column(name = "username")
     private String name;
 
-    @Column(name = "year_of_birth")
-    private Integer yearOfBirth;
-
     @Column(name = "email")
     private String email;
 
     @Column(name = "password")
     private String password;
 
+    @Column(name = "year_of_birth")
+    private Integer yearOfBirth;
+
     @Column(name = "salt")
     private String salt;
+
+    @Column(name = "role")
+    private String role;
 
 }

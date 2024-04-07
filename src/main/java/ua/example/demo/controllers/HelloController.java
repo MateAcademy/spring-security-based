@@ -11,7 +11,6 @@ import ua.example.demo.security.PersonDetails;
 @RequestMapping
 public class HelloController {
 
-
     @GetMapping("/hello")
     public String hello() {
         return "/hello";
@@ -24,4 +23,5 @@ public class HelloController {
         System.out.println(personDetails.getPerson());
         return "/hello";
     }
+
 }
